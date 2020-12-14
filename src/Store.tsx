@@ -1,7 +1,7 @@
 import { computed, makeObservable, observable } from "mobx";
 
 export default class Store {
-    apps: Array<App> = [];
+    apps: Array<Entity> = [];
 
     constructor() {
         makeObservable(this, {
@@ -24,7 +24,7 @@ export default class Store {
     }
 }
 
-export interface App {
+export interface Entity {
     id: string;
     name: string;
 }

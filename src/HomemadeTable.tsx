@@ -1,14 +1,13 @@
 import React, { ReactNode, ReactNodeArray } from 'react';
 import './App.css';
 import { observer } from "mobx-react";
-import Store from './Store';
-import EnhancedTable from './MaterialTable';
+import Store, { Entity } from './Store';
 
 
-const Cells = () =>
+const Cells = ({ app }: { app: Entity }) =>
   <>
-    <td>A</td>
-    <td>A</td>
+    <td>{app.id}</td>
+    <td>{app.name}</td>
   </>
 
 const Row = ({ children }: { children: ReactNode }) =>
@@ -33,10 +32,10 @@ const Table = ({ children }: TableProps) =>
     </tbody>
   </table>
 
-const App = observer(({ store }: { store: Store }) => {
+const HomemadeTable = observer(({ store }: { store: Store }) => {
   const rows = store.apps.map(app =>
     <Row>
-      <Cells />
+      <Cells app={app} />
     </Row>
   );
   return <div className="App">
@@ -44,8 +43,7 @@ const App = observer(({ store }: { store: Store }) => {
     <Table>
       {rows}
     </Table>
-    <EnhancedTable />
   </div>;
 });
 
-export default App;
+export default HomemadeTable;

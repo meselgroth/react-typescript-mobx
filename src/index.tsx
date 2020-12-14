@@ -1,15 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import HomemadeTable from './HomemadeTable';
 import reportWebVitals from './reportWebVitals';
 import Store from './Store';
+import EnhancedTable from './MaterialTable';
 
 const store = new Store();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App store={store} />
+    <HomemadeTable store={store} />
+    <EnhancedTable />
+
   </React.StrictMode>,
   document.getElementById('root')
 );
