@@ -8,6 +8,8 @@ const Cells = observer(({ app }: { app: Entity }) =>
   <>
     <td>{app.id}</td>
     <td>{app.name}</td>
+    <td>{app.author}</td>
+    <td>{app.status}</td>
   </>);
 
 const Row = ({ children }: { children: ReactNode }) =>
@@ -23,8 +25,10 @@ const Table = ({ children }: TableProps) =>
   <table>
     <thead>
       <tr>
-        <td>Header</td>
-        <td>Header</td>
+        <td>Id</td>
+        <td>Name</td>
+        <td>Author</td>
+        <td>Status</td>
       </tr>
     </thead>
     <tbody>
@@ -42,7 +46,7 @@ const HomemadeTable = observer(({ store }: { store: Store }) => {
 
 
   return <div className="App">
-    <div>{store.appsCount}</div>
+    <div>Num of rows: {store.appsCount}</div>
     <Table>
       {rows}
     </Table>

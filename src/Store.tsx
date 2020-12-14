@@ -10,20 +10,24 @@ export default class Store {
     })
     this.apps = [{
       id: '1',
-      name: 'Abc'
+      name: 'Abc',
+      author: 'Bobbo',
+      status: 'Released'
     },
     {
       id: '2',
-      name: 'Def'
+      name: 'Def',
+      author: 'Davo',
+      status: 'Rejected'
     }];
 
     setInterval(() => {
-      this.changeName('1', 'abc' + Math.round(Math.random() * 10));
+      this.changeName('1', 'Abc' + Math.round(Math.random() * 10));
     }, 1000);
   
     let idCount = 3;
     setInterval(() => {
-      this.addApp({ id: idCount.toString(), name: (Math.round(Math.random() * 10)).toString() });
+      this.addApp({ id: idCount.toString(), name: String.fromCharCode(Math.round(Math.random() * 100+20)) });
       idCount++;
     }, 10000);
   }
@@ -44,4 +48,6 @@ export default class Store {
 export interface Entity {
   id: string;
   name: string;
+  author?: string;
+  status?: string;
 }
