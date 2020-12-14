@@ -1,12 +1,25 @@
 import { makeObservable, observable } from "mobx";
 
 export default class Store {
-    armyCount = 0;
+    apps: Array<App>;
 
-    constructor(){
+    constructor() {
         makeObservable(this, {
-            armyCount: observable,
+            apps: observable,
         })
-        this.armyCount = 1;
+        this.apps = [{
+            id: '1',
+            name: 'Abc'
+        },
+        {
+            id: '2',
+            name: 'Def'
+        }
+    ];
     }
+}
+
+export interface App {
+    id: string;
+    name: string;
 }

@@ -14,20 +14,23 @@ const Row = () =>
     <Cells />
   </tr>
 
-const App = observer(({ store }: { store: Store }) => 
+const Table = () =>
+  <table>
+    <thead>
+      <tr>
+        <td>Header</td>
+        <td>Header</td>
+      </tr>
+    </thead>
+    <tbody>
+      <Row />
+      <Row />
+    </tbody>
+  </table>
+
+const App = observer(({ store }: { store: Store }) =>
   <div className="App">
-    <table>
-      <thead>
-        <tr>
-          <td>Header</td>
-          <td>Header</td>
-        </tr>
-      </thead>
-      <tbody>
-        <Row />
-        <Row />
-      </tbody>
-    </table>
+    <Table />
   </div>
 );
 
