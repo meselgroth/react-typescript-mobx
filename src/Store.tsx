@@ -1,11 +1,12 @@
-import { makeObservable, observable } from "mobx";
+import { computed, makeObservable, observable } from "mobx";
 
 export default class Store {
-    apps: Array<App>;
+    apps: Array<App> = [];
 
     constructor() {
         makeObservable(this, {
             apps: observable,
+            appsCount: computed
         })
         this.apps = [{
             id: '1',
@@ -15,7 +16,11 @@ export default class Store {
             id: '2',
             name: 'Def'
         }
-    ];
+        ];
+    }
+
+    get appsCount(){
+        return this.apps.length;
     }
 }
 

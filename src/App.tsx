@@ -20,7 +20,7 @@ type TableProps = {
   children: ReactNodeArray
 };
 
-const Table = ({children}: TableProps) =>
+const Table = ({ children }: TableProps) =>
   <table>
     <thead>
       <tr>
@@ -33,14 +33,16 @@ const Table = ({children}: TableProps) =>
     </tbody>
   </table>
 
-const App = observer(({ store }: { store: Store }) =>
-  <div className="App">
-    <Table >
-      <Row/>
-      <Row/>
+const App = observer(({ store }: { store: Store }) => {
+  const rows = store.apps.map(app=><Row/>);
+  return <div className="App">
+    <div>{store.appsCount}</div>
+    <Table>
+      {rows}
     </Table>
-    <EnhancedTable/>
-  </div>
+    <EnhancedTable />
+  </div>;
+}
 );
 
 export default App;
