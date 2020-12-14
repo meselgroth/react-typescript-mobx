@@ -3,29 +3,31 @@ import './App.css';
 import { observer } from "mobx-react"
 import Store from './Store';
 
+const Cells = () =>
+  <>
+    <td>A</td>
+    <td>A</td>
+  </>
 
+const Row = () =>
+  <tr>
+    <Cells />
+  </tr>
 
 const App = observer(({ store }: { store: Store }) => 
   <div className="App">
     <table>
       <thead>
-      <tr>
-          <td>A</td>
-          <td>A</td>
+        <tr>
+          <td>Header</td>
+          <td>Header</td>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>A</td>
-          <td>A</td>
-        </tr>
-        <tr>
-          <td>A</td>
-          <td>A</td>
-        </tr>
+        <Row />
+        <Row />
       </tbody>
     </table>
-    {store.armyCount}
   </div>
 );
 
