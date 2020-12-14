@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNodeArray } from 'react';
 import './App.css';
 import { observer } from "mobx-react";
 import Store from './Store';
@@ -16,7 +16,11 @@ const Row = () =>
     <Cells />
   </tr>
 
-const Table = () =>
+type TableProps = {
+  children: ReactNodeArray
+};
+
+const Table = ({children}: TableProps) =>
   <table>
     <thead>
       <tr>
@@ -25,14 +29,16 @@ const Table = () =>
       </tr>
     </thead>
     <tbody>
-      <Row />
-      <Row />
+      {children}
     </tbody>
   </table>
 
 const App = observer(({ store }: { store: Store }) =>
   <div className="App">
-    <Table />
+    <Table >
+      <Row/>
+      <Row/>
+    </Table>
     <EnhancedTable/>
   </div>
 );
