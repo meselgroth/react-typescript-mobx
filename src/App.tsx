@@ -1,7 +1,9 @@
 import React from 'react';
 import './App.css';
-import { observer } from "mobx-react"
+import { observer } from "mobx-react";
 import Store from './Store';
+import EnhancedTable from './MaterialTable';
+
 
 const Cells = () =>
   <>
@@ -31,6 +33,7 @@ const Table = () =>
 const App = observer(({ store }: { store: Store }) =>
   <div className="App">
     <Table />
+    <EnhancedTable/>
   </div>
 );
 
