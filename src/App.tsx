@@ -1,4 +1,4 @@
-import React, { ReactNodeArray } from 'react';
+import React, { ReactNode, ReactNodeArray } from 'react';
 import './App.css';
 import { observer } from "mobx-react";
 import Store from './Store';
@@ -11,9 +11,9 @@ const Cells = () =>
     <td>A</td>
   </>
 
-const Row = () =>
+const Row = ({ children }: { children: ReactNode }) =>
   <tr>
-    <Cells />
+    {children}
   </tr>
 
 type TableProps = {
@@ -34,7 +34,11 @@ const Table = ({ children }: TableProps) =>
   </table>
 
 const App = observer(({ store }: { store: Store }) => {
-  const rows = store.apps.map(app=><Row/>);
+  const rows = store.apps.map(app =>
+    <Row>
+      <Cells />
+    </Row>
+  );
   return <div className="App">
     <div>{store.appsCount}</div>
     <Table>
@@ -42,7 +46,6 @@ const App = observer(({ store }: { store: Store }) => {
     </Table>
     <EnhancedTable />
   </div>;
-}
-);
+});
 
 export default App;
