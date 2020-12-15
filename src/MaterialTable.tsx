@@ -21,21 +21,25 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
 interface Data {
-  calories: number;
-  carbs: number;
-  fat: number;
+  id: string;
   name: string;
-  protein: number;
+  author: string;
+  status: string;
 }
 
 function createData(
   name: string,
-  calories: number,
+  id: number,
   fat: number,
   carbs: number,
   protein: number,
 ): Data {
-  return { name, calories, fat, carbs, protein };
+  return {
+    id: id.toString(),
+    name,
+    author: 'Bobbo',
+    status: 'Released'
+  };
 }
 
 const rows = [
@@ -93,11 +97,11 @@ interface HeadCell {
 }
 
 const headCells: HeadCell[] = [
-  { id: 'name', numeric: false, disablePadding: true, label: 'Dessert (100g serving)' },
-  { id: 'calories', numeric: true, disablePadding: false, label: 'Calories' },
-  { id: 'fat', numeric: true, disablePadding: false, label: 'Fat (g)' },
-  { id: 'carbs', numeric: true, disablePadding: false, label: 'Carbs (g)' },
-  { id: 'protein', numeric: true, disablePadding: false, label: 'Protein (g)' },
+  { id: 'name', numeric: false, disablePadding: true, label: 'App long name to stop width changing' },
+  { id: 'id', numeric: false, disablePadding: false, label: 'Id' },
+  { id: 'author', numeric: false, disablePadding: false, label: 'Author' },
+  { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
+  { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
 ];
 
 interface EnhancedTableProps {
@@ -244,7 +248,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function EnhancedTable() {
   const classes = useStyles();
   const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
+  const [orderBy, setOrderBy] = React.useState<keyof Data>('id');
   const [selected, setSelected] = React.useState<string[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
@@ -348,10 +352,10 @@ export default function EnhancedTable() {
                       <TableCell component="th" id={labelId} scope="row" padding="none">
                         {row.name}
                       </TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
+                      <TableCell align="left">{row.id}</TableCell>
+                      <TableCell align="left">{row.author}</TableCell>
+                      <TableCell align="left">{row.status}</TableCell>
+                      <TableCell align="left">{row.status}</TableCell>
                     </TableRow>
                   );
                 })}
