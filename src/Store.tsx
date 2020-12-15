@@ -8,26 +8,15 @@ export default class Store {
       apps: observable,
       appsCount: computed
     })
-    this.apps = [{
-      id: '1',
-      name: 'Abc',
-      author: 'Bobbo',
-      status: 'Released'
-    },
-    {
-      id: '2',
-      name: 'Def',
-      author: 'Davo',
-      status: 'Rejected'
-    }];
+    this.apps = rows;
 
     setInterval(() => {
-      this.changeName('1', 'Abc' + Math.round(Math.random() * 10));
+      this.changeName('305', 'Abc' + Math.round(Math.random() * 10));
     }, 1000);
   
     let idCount = 3;
     setInterval(() => {
-      this.addApp({ id: idCount.toString(), name: String.fromCharCode(Math.round(Math.random() * 100+20)) });
+      this.addApp({ id: idCount.toString(), name: String.fromCharCode(Math.round(Math.random() * 100+20)), author:'jjj', status:'Released' });
       idCount++;
     }, 10000);
   }
@@ -48,6 +37,36 @@ export default class Store {
 export interface Entity {
   id: string;
   name: string;
-  author?: string;
-  status?: string;
+  author: string;
+  status: string;
 }
+
+function createData(
+  name: string,
+  id: number,
+  author: string,
+  status: string,
+): Entity {
+  return {
+    id: id.toString(),
+    name,
+    author: 'Bobbo',
+    status: 'Released'
+  };
+}
+
+const rows = [
+  createData('Cupcake', 305, 'John', 'Released'),
+  createData('Donut', 452, 'Bobbo', 'Rejected'),
+  createData('Eclair', 262, 'John', 'Released'),
+  createData('Frozen yoghurt', 159, 'John', 'Released'),
+  createData('Gingerbread', 356, 'John', 'Released'),
+  createData('Honeycomb', 408, 'John', 'Released'),
+  createData('Ice cream sandwich', 237, 'Bobbo', 'Rejected'),
+  createData('Jelly Bean', 375, 'Bobbo', 'Rejected'),
+  createData('KitKat', 518, 'Bobbo', 'Rejected'),
+  createData('Lollipop', 392, 'Bobbo', 'Rejected'),
+  createData('Marshmallow', 318, 'Bobbo', 'Rejected'),
+  createData('Nougat', 360, 'Bobbo', 'Rejected'),
+  createData('Oreo', 437, 'Bobbo', 'Rejected'),
+];
