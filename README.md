@@ -1,7 +1,8 @@
 # Table Component Research (Design & Creation)
 
 ## Super basic homemade table, to decide best creation/component design
-[HomemadeTable.tsx](../blob/table/src/HomemadeTable.tsx)
+[CreateHomemadeTable.tsx](./src/CreateHomemadeTable.tsx) |
+[BaseHomemadeTable.tsx](./src/BaseHomemadeTable.tsx)
 
 Create functions 
  - Observable (if required) react components
@@ -13,10 +14,13 @@ Components
  - Take any type of children
  - No iteration
 
-## MaterialUI 
-[MaterialTable.tsx](../blob/table/src/MaterialTable.tsx)
- - Typed rows (using keyof)
- - Doesn't like nullable fields
+## MaterialUI Findings
+[MaterialTable.tsx](./src/MaterialTable.tsx)
+ - Nice typed rows (using keyof)
+ - Very easy to change given example to base off my own data structure
+   - See 2 commits: [Change data structure](https://github.com/meselgroth/react-typescript-mobx/commit/58b42b48ff4d7c711680ee761c852bb2f1e76ff9) |
+  [Connect to store](https://github.com/meselgroth/react-typescript-mobx/commit/ada088c8af7d99cbcf436461f757bd6adfde1e7c)
+ - Doesn't like nullable fields (haven't investigated)
  - Requires header name longer than contents to stop width changing (when sorting)
 
 ## Available Scripts
