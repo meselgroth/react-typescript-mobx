@@ -1,22 +1,17 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import './App.css';
 import { observer } from "mobx-react";
 import Store, { Entity } from './Store';
-import { FancyCell, Table } from './BaseHomemadeTable';
+import { FancyCell, Row, Table } from './BaseHomemadeTable';
 
 
 const Cells = observer(({ app }: { app: Entity }) =>
   <>
-    <td>{app.id}</td>
-    <FancyCell name={app.name} />
-    <td>{app.author}</td>
-    <td>{app.status}</td>
+    <FancyCell value={app.id} />
+    <FancyCell value={app.name} />
+    <FancyCell value={app.author} />
+    <FancyCell value={app.status} />
   </>);
-
-const Row = ({ children }: { children: ReactNode }) =>
-  <tr>
-    {children}
-  </tr>;
 
 const HomemadeTable = observer(({ store }: { store: Store }) => {
   const rows = store.apps.map(app =>

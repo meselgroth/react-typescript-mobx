@@ -1,10 +1,15 @@
-import React, { ReactNodeArray } from 'react';
+import React, { ReactNode, ReactNodeArray } from 'react';
 
-export const FancyCell = ({ name }: { name: string }) => <td>{name}</td>;
+export const FancyCell = ({ value }: { value: string }) => <td>{value}</td>;
 
 type TableProps = {
   children: ReactNodeArray
 };
+
+export const Row = ({ children }: { children: ReactNode }) =>
+  <tr>
+    {children}
+  </tr>;
 
 export const Table = ({ children }: TableProps) =>
   <table>
