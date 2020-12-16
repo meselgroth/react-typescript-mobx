@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import HomemadeTable from './createHomemadeTable';
+import HomemadeTable from './CreateHomemadeTable';
 
 test('renders learn react link', () => {
   render(<HomemadeTable />);

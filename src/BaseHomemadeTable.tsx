@@ -15,10 +15,10 @@ export const Table = ({ children }: TableProps) =>
   <table>
     <thead>
       <tr>
-        <td>Id</td>
-        <td>Name</td>
-        <td>Author</td>
-        <td>Status</td>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Author</th>
+        <th>Status</th>
       </tr>
     </thead>
     <tbody>

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import HomemadeTable from './createHomemadeTable';
+import HomemadeTable from './CreateHomemadeTable';
 import reportWebVitals from './reportWebVitals';
 import Store from './Store';
 import { EnhancedTable } from './MaterialTable';
