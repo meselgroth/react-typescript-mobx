@@ -10,7 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import { observer } from 'mobx-react';
-import { Entity } from './Store';
+import { Entity } from '../Store';
 import TableStore from './TableStore';
 import { Order } from './stableSort';
 import { EnhancedTableToolbar } from './EnhancedTableToolbar';

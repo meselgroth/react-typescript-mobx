@@ -1,7 +1,7 @@
 import { Order } from './stableSort';
 import { ReactNode } from 'react';
 import { makeAutoObservable } from "mobx";
-import { Entity } from './Store';
+import { Entity } from '../Store';
 
 export default class TableStore {
   totalCount: number = 0;

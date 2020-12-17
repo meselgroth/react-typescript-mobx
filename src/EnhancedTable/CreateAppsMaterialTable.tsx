@@ -20,15 +20,16 @@ import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { observer } from 'mobx-react';
-import Store, { Entity } from './Store';
+import Store, { Entity } from '../Store';
 import TableStore from './TableStore';
-import { EnhancedTable } from './MaterialTable';
+import { EnhancedTable } from './EnhancedTable';
 import { stableSort, getComparator } from './stableSort';
 
 const tblStore = new TableStore();
 
 export const CreateAppsMaterialTable = observer(({ store }: { store: Store }) => {
   // FOR head, create map of fields with lables. Reuse fields(keys) for orderBy
+  
   tblStore.setTotalCount(store.appsCount);
 
   tblStore.rows = stableSort(store.apps, getComparator(tblStore.order, tblStore.orderBy))

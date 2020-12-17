@@ -4,7 +4,7 @@ import './index.css';
 import HomemadeTable from './CreateHomemadeTable';
 import reportWebVitals from './reportWebVitals';
 import Store from './Store';
-import { CreateAppsMaterialTable } from './CreateAppsMaterialTable';
+import { CreateAppsMaterialTable } from './EnhancedTable/CreateAppsMaterialTable';
 
 const store = new Store();
 
