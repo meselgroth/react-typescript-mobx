@@ -4,13 +4,13 @@ import './index.css';
 import HomemadeTable from './CreateHomemadeTable';
 import reportWebVitals from './reportWebVitals';
 import Store from './Store';
-import { EnhancedTable } from './MaterialTable';
+import { CreateAppsMaterialTable } from './CreateAppsMaterialTable';
 
 const store = new Store();
 
 ReactDOM.render(
   <React.StrictMode>
-    <EnhancedTable store={store} />
+    <CreateAppsMaterialTable store={store} />
     <HomemadeTable store={store} />
 
   </React.StrictMode>,

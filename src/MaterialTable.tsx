@@ -21,37 +21,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { observer } from 'mobx-react';
 import Store, { Entity } from './Store';
-
-function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-type Order = 'asc' | 'desc';
-
-function getComparator<Key extends keyof any>(
-  order: Order,
-  orderBy: Key,
-): (a: { [key in Key]: number | string }, b: { [key in Key]: number | string }) => number {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
-  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
+import TableStore from './TableStore';
+import { stableSort, getComparator, Order } from './stableSort';
 
 interface HeadCell {
   disablePadding: boolean;
@@ -199,7 +170,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export const EnhancedTable = observer(({ store }: { store: Store }) => {
+export const EnhancedTable = observer(({ store }: { store: TableStore}) => {
   const classes = useStyles();
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Entity>('id');
@@ -207,8 +178,6 @@ export const EnhancedTable = observer(({ store }: { store: Store }) => {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const rows = store.apps;
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Entity) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -249,10 +218,9 @@ export const EnhancedTable = observer(({ store }: { store: Store }) => {
     setDense(event.target.checked);
   };
 
-  const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, store.rows.length - page * rowsPerPage);
+  
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -269,35 +237,10 @@ export const EnhancedTable = observer(({ store }: { store: Store }) => {
               order={order}
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={store.rowCount}
             />
             <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row.name)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.name}
-                      selected={isItemSelected}
-                    >
-                      <TableCell component="th" id={labelId} scope="row">
-                        {row.name}
-                      </TableCell>
-                      <TableCell align="left">{row.id}</TableCell>
-                      <TableCell align="left">{row.author}</TableCell>
-                      <TableCell align="left">{row.status}</TableCell>
-                      <TableCell align="left">{row.status}</TableCell>
-                    </TableRow>
-                  );
-                })}
+              {store.rows}
               {emptyRows > 0 && (
                 <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
                   <TableCell colSpan={6} />
@@ -309,7 +252,7 @@ export const EnhancedTable = observer(({ store }: { store: Store }) => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={store.rowCount}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}

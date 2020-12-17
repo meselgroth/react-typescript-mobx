@@ -1,4 +1,4 @@
-import { computed, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 
 export default class Store {
   apps: Array<Entity> = [];
@@ -6,7 +6,9 @@ export default class Store {
   constructor() {
     makeObservable(this, {
       apps: observable,
-      appsCount: computed
+      appsCount: computed,
+      changeName: action,
+      addApp: action
     })
     this.apps = rows;
 
