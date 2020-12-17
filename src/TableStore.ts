@@ -15,4 +15,13 @@ export default class TableStore {
   get rowCount() {
     return this.rows.length;
   }
+  setOrder(order: Order) {
+    this.order=order;
+  }
+  setOrderBy(property: keyof Entity) {
+    this.orderBy=property;
+  }
+  setSelected(newSelected: string[]) {
+      this.selected=newSelected;
+  }
 }

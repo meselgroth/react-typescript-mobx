@@ -27,40 +27,62 @@ import { stableSort, getComparator } from './stableSort';
 
 const tableStore = new TableStore();
 
+
 export const CreateAppsMaterialTable = observer(({ store }: { store: Store }) => {
+  // FOR head, create map of fields with lables. Reuse fields(keys) for orderBy
 
-  const isSelected = (name: string) => tableStore.selected.indexOf(name) !== -1;
+  tableStore.rows = stableSort(store.apps, getComparator(tableStore.order, tableStore.orderBy))
+    // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+    .map((row, index) => {
+      const isItemSelected = isSelected(row.name);
+      const labelId = `enhanced-table-checkbox-${index}`;
 
-    tableStore.rows = stableSort(store.apps, getComparator(tableStore.order, tableStore.orderBy)) //stableSort(store.apps, getComparator(order, orderBy))
-        // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-        .map((row, index) => {
-            const isItemSelected = isSelected(row.name);
-            const labelId = `enhanced-table-checkbox-${index}`;
+      return <CreateRow row={row} isItemSelected={isItemSelected} labelId={labelId} />;
+    });
 
-            return createRow(row, isItemSelected, labelId);
-        });
-
-    return (
-        <EnhancedTable store={tableStore} />
-    );
+  return (
+    <EnhancedTable store={tableStore} />
+  );
 });
 
-function createRow(row: Entity, isItemSelected: boolean, labelId: string) {
-    return <TableRow
-        hover
-        // onClick={(event) => handleClick(event, row.name)}
-        role="checkbox"
-        aria-checked={isItemSelected}
-        tabIndex={-1}
-        key={row.id}
-        selected={isItemSelected}
-    >
-        <TableCell component="th" id={labelId} scope="row">
-            {row.name}
-        </TableCell>
-        <TableCell align="left">{row.id}</TableCell>
-        <TableCell align="left">{row.author}</TableCell>
-        <TableCell align="left">{row.status}</TableCell>
-        <TableCell align="left">{row.status}</TableCell>
-    </TableRow>;
+function CreateRow({ row, isItemSelected, labelId }: { row: Entity; isItemSelected: boolean; labelId: string; }) {
+  return <TableRow
+    hover
+    onClick={(event) => handleClick(event, row.name)}
+    role="checkbox"
+    aria-checked={isItemSelected}
+    tabIndex={-1}
+    key={row.id}
+    selected={isItemSelected}
+  >
+    <TableCell component="th" id={labelId} scope="row">
+      {row.name}
+    </TableCell>
+    <TableCell align="left">{row.id}</TableCell>
+    <TableCell align="left">{row.author}</TableCell>
+    <TableCell align="left">{row.status}</TableCell>
+    <TableCell align="left">{row.status}</TableCell>
+  </TableRow>;
 }
+
+const isSelected = (name: string) => tableStore.selected.indexOf(name) !== -1;
+
+const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
+  const selectedIndex = tableStore.selected.indexOf(name);
+  let newSelected: string[] = [];
+
+  if (selectedIndex === -1) {
+    newSelected = newSelected.concat(tableStore.selected, name);
+  } else if (selectedIndex === 0) {
+    newSelected = newSelected.concat(tableStore.selected.slice(1));
+  } else if (selectedIndex === tableStore.selected.length - 1) {
+    newSelected = newSelected.concat(tableStore.selected.slice(0, -1));
+  } else if (selectedIndex > 0) {
+    newSelected = newSelected.concat(
+      tableStore.selected.slice(0, selectedIndex),
+      tableStore.selected.slice(selectedIndex + 1),
+    );
+  }
+
+  tableStore.setSelected(newSelected);
+};

@@ -12,7 +12,6 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -20,9 +19,9 @@ import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { observer } from 'mobx-react';
-import Store, { Entity } from './Store';
+import { Entity } from './Store';
 import TableStore from './TableStore';
-import { stableSort, getComparator, Order } from './stableSort';
+import { Order } from './stableSort';
 
 interface HeadCell {
   disablePadding: boolean;
@@ -172,37 +171,14 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const EnhancedTable = observer(({ store }: { store: TableStore}) => {
   const classes = useStyles();
-  const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof Entity>('id');
-  const [selected, setSelected] = React.useState<string[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Entity) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
-  const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected: string[] = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-
-    setSelected(newSelected);
+    const isAsc = store.orderBy === property && store.order === 'asc';
+    store.setOrder(isAsc ? 'desc' : 'asc');
+    store.setOrderBy(property);
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -224,7 +200,7 @@ export const EnhancedTable = observer(({ store }: { store: TableStore}) => {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={store.selected.length} />
         <TableContainer>
           <Table
             className={classes.table}
@@ -234,8 +210,8 @@ export const EnhancedTable = observer(({ store }: { store: TableStore}) => {
           >
             <EnhancedTableHead
               classes={classes}
-              order={order}
-              orderBy={orderBy}
+              order={store.order}
+              orderBy={store.orderBy}
               onRequestSort={handleRequestSort}
               rowCount={store.rowCount}
             />
