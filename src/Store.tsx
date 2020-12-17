@@ -12,15 +12,15 @@ export default class Store {
     })
     this.apps = rows;
 
-    setInterval(() => {
-      this.changeName('305', 'Abc' + Math.round(Math.random() * 10));
-    }, 1000);
+    // setInterval(() => {
+    //   this.changeName('305', 'Abc' + Math.round(Math.random() * 10));
+    // }, 1000);
   
-    let idCount = 3;
-    setInterval(() => {
-      this.addApp({ id: idCount.toString(), name: String.fromCharCode(Math.round(Math.random() * 100+20)), author:'jjj', status:'Released' });
-      idCount++;
-    }, 10000);
+    // let idCount = 3;
+    // setInterval(() => {
+    //   this.addApp({ id: idCount.toString(), name: String.fromCharCode(Math.round(Math.random() * 100+20)), author:'jjj', status:'Released' });
+    //   idCount++;
+    // }, 10000);
   }
 
   changeName(id: string, newName: string) {

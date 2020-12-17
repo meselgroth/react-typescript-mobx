@@ -14,8 +14,6 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { observer } from 'mobx-react';
@@ -34,7 +32,6 @@ const headCells: HeadCell[] = [
   { id: 'name', numeric: false, disablePadding: false, label: 'App long name to stop width changing' },
   { id: 'id', numeric: false, disablePadding: false, label: 'Id' },
   { id: 'author', numeric: false, disablePadding: false, label: 'Author' },
-  { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
   { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
 ];
 
@@ -171,9 +168,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const EnhancedTable = observer(({ store }: { store: TableStore}) => {
   const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Entity) => {
     const isAsc = store.orderBy === property && store.order === 'asc';
@@ -182,20 +176,15 @@ export const EnhancedTable = observer(({ store }: { store: TableStore}) => {
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
+    store.setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    store.setRowsPerPage(parseInt(event.target.value, 10));
+    store.setPage(0);
   };
 
-  const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDense(event.target.checked);
-  };
-
-
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, store.rows.length - page * rowsPerPage);
+  const emptyRows = store.rowsPerPage - Math.min(store.rowsPerPage, store.totalCount - store.page * store.rowsPerPage);
   
   return (
     <div className={classes.root}>
@@ -205,7 +194,7 @@ export const EnhancedTable = observer(({ store }: { store: TableStore}) => {
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
+            size={'medium'}
             aria-label="enhanced table"
           >
             <EnhancedTableHead
@@ -213,13 +202,14 @@ export const EnhancedTable = observer(({ store }: { store: TableStore}) => {
               order={store.order}
               orderBy={store.orderBy}
               onRequestSort={handleRequestSort}
-              rowCount={store.rowCount}
+              rowCount={store.totalCount}
             />
             <TableBody>
               {store.rows}
               {emptyRows > 0 && (
-                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                  <TableCell colSpan={6} />
+                <TableRow style={{ height: 53 * emptyRows }}>
+                  {/* !!Set col count, required?!! */}
+                  <TableCell colSpan={5} /> 
                 </TableRow>
               )}
             </TableBody>
@@ -228,17 +218,13 @@ export const EnhancedTable = observer(({ store }: { store: TableStore}) => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={store.rowCount}
-          rowsPerPage={rowsPerPage}
-          page={page}
+          count={store.totalCount}
+          rowsPerPage={store.rowsPerPage}
+          page={store.page}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Paper>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      />
     </div>
   );
 });
