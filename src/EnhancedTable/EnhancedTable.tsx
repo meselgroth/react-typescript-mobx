@@ -10,21 +10,20 @@ import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import { observer } from 'mobx-react';
-import { Entity } from '../Store';
 import TableStore from './TableStore';
 import { Order } from './stableSort';
 import { EnhancedTableToolbar } from './EnhancedTableToolbar';
 
 export interface HeadCell {
   disablePadding: boolean;
-  id: keyof Entity;
+  id: string;
   label: string;
   numeric: boolean;
 }
 
 interface EnhancedTableProps {
   classes: ReturnType<typeof useStyles>;
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Entity) => void;
+  onRequestSort: (event: React.MouseEvent<unknown>, property: string) => void;
   order: Order;
   orderBy: string;
   rowCount: number;
@@ -33,7 +32,7 @@ interface EnhancedTableProps {
 
 function EnhancedTableHead(props: EnhancedTableProps) {
   const { classes, order, orderBy, onRequestSort, headCells } = props;
-  const createSortHandler = (property: keyof Entity) => (event: React.MouseEvent<unknown>) => {
+  const createSortHandler = (property: string) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property);
   };
 
@@ -95,7 +94,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export const EnhancedTable = observer(({ store }: { store: TableStore}) => {
   const classes = useStyles();
 
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Entity) => {
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
     const isAsc = store.orderBy === property && store.order === 'asc';
     store.setOrder(isAsc ? 'desc' : 'asc');
     store.setOrderBy(property);

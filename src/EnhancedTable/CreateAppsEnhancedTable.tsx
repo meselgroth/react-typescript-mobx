@@ -1,30 +1,13 @@
 import React from 'react';
-import clsx from 'clsx';
-import { createStyles, lighten, makeStyles, Theme } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
 import { observer } from 'mobx-react';
 import Store, { Entity } from '../Store';
 import TableStore from './TableStore';
 import { EnhancedTable, HeadCell } from './EnhancedTable';
 import { stableSort, getComparator } from './stableSort';
 
+// ID must match an Entity property name
 const headCells: HeadCell[] = [
   { id: 'name', numeric: false, disablePadding: false, label: 'App long name to stop width changing' },
   { id: 'id', numeric: false, disablePadding: false, label: 'Id' },
@@ -33,12 +16,10 @@ const headCells: HeadCell[] = [
 ];
 const tblStore = new TableStore(headCells);
 
-export const CreateAppsMaterialTable = observer(({ store }: { store: Store }) => {
-  // FOR head, create map of fields with lables. Reuse fields(keys) for orderBy
-  
+export const CreateAppsMaterialTable = observer(({ store }: { store: Store }) => {  
   tblStore.setTotalCount(store.appsCount);
 
-  tblStore.rows = stableSort(store.apps, getComparator(tblStore.order, tblStore.orderBy))
+  tblStore.rows = stableSort(store.apps, getComparator(tblStore.order, tblStore.orderBy as keyof Entity))
     .slice(tblStore.page * tblStore.rowsPerPage, tblStore.page * tblStore.rowsPerPage + tblStore.rowsPerPage)
     .map((row, index) => {
       const isItemSelected = isSelected(row.name);

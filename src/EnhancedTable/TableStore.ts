@@ -1,13 +1,12 @@
 import { Order } from './stableSort';
 import { ReactNode } from 'react';
 import { makeAutoObservable } from "mobx";
-import { Entity } from '../Store';
 import { HeadCell } from './EnhancedTable';
 
 export default class TableStore {
   totalCount: number = 0;
   rows: Array<ReactNode> = [];
-  orderBy: keyof Entity = 'id'; // FIX
+  orderBy: string = 'id';
   order: Order = 'asc';
   selected: string[] = [];
   page: number = 0;
@@ -25,7 +24,7 @@ export default class TableStore {
   setOrder(order: Order) {
     this.order = order;
   }
-  setOrderBy(property: keyof Entity) {
+  setOrderBy(property: string) {
     this.orderBy = property;
   }
   setSelected(newSelected: string[]) {
