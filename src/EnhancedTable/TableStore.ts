@@ -2,6 +2,7 @@ import { Order } from './stableSort';
 import { ReactNode } from 'react';
 import { makeAutoObservable } from "mobx";
 import { Entity } from '../Store';
+import { HeadCell } from './EnhancedTable';
 
 export default class TableStore {
   totalCount: number = 0;
@@ -12,8 +13,11 @@ export default class TableStore {
   page: number = 0;
   rowsPerPage: number = 5;
 
-  constructor() {
+  headCells: HeadCell[] = [];
+
+  constructor(headCells: HeadCell[]) {
     makeAutoObservable(this);
+    this.headCells = headCells;
   }
   setTotalCount(count: number) {
     this.totalCount = count;

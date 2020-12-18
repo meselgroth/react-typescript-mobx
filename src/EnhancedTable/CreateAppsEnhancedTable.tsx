@@ -22,10 +22,16 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import { observer } from 'mobx-react';
 import Store, { Entity } from '../Store';
 import TableStore from './TableStore';
-import { EnhancedTable } from './EnhancedTable';
+import { EnhancedTable, HeadCell } from './EnhancedTable';
 import { stableSort, getComparator } from './stableSort';
 
-const tblStore = new TableStore();
+const headCells: HeadCell[] = [
+  { id: 'name', numeric: false, disablePadding: false, label: 'App long name to stop width changing' },
+  { id: 'id', numeric: false, disablePadding: false, label: 'Id' },
+  { id: 'author', numeric: false, disablePadding: false, label: 'Author' },
+  { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
+];
+const tblStore = new TableStore(headCells);
 
 export const CreateAppsMaterialTable = observer(({ store }: { store: Store }) => {
   // FOR head, create map of fields with lables. Reuse fields(keys) for orderBy

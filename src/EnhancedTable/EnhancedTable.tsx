@@ -15,19 +15,12 @@ import TableStore from './TableStore';
 import { Order } from './stableSort';
 import { EnhancedTableToolbar } from './EnhancedTableToolbar';
 
-interface HeadCell {
+export interface HeadCell {
   disablePadding: boolean;
   id: keyof Entity;
   label: string;
   numeric: boolean;
 }
-
-const headCells: HeadCell[] = [
-  { id: 'name', numeric: false, disablePadding: false, label: 'App long name to stop width changing' },
-  { id: 'id', numeric: false, disablePadding: false, label: 'Id' },
-  { id: 'author', numeric: false, disablePadding: false, label: 'Author' },
-  { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
-];
 
 interface EnhancedTableProps {
   classes: ReturnType<typeof useStyles>;
@@ -35,10 +28,11 @@ interface EnhancedTableProps {
   order: Order;
   orderBy: string;
   rowCount: number;
+  headCells: HeadCell[];
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-  const { classes, order, orderBy, onRequestSort } = props;
+  const { classes, order, orderBy, onRequestSort, headCells } = props;
   const createSortHandler = (property: keyof Entity) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property);
   };
@@ -130,6 +124,7 @@ export const EnhancedTable = observer(({ store }: { store: TableStore}) => {
             aria-label="enhanced table"
           >
             <EnhancedTableHead
+              headCells={store.headCells}
               classes={classes}
               order={store.order}
               orderBy={store.orderBy}
