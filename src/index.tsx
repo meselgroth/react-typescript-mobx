@@ -4,12 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Store from './Store';
+import AppAlternate from './ComponentPatterns/AppHOC';
 
 const store = new Store();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App store={store} />
+    <AppAlternate store={store} />
   </React.StrictMode>,
   document.getElementById('root')
 );

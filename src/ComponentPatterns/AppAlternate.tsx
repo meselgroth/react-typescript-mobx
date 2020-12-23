@@ -1,7 +1,7 @@
 import React from 'react';
-import './App.css';
+import '../App.css';
 import { observer } from "mobx-react"
-import Store from './Store';
+import Store from '../Store';
 
 type propsType = {
   store: Store;
