@@ -16,16 +16,15 @@ const headCells: HeadCell[] = [
 ];
 const tblStore = new TableStore(headCells);
 
-export const CreateAppsMaterialTable = observer(({ store }: { store: Store }) => {  
+export const CreateAppsMaterialTable = observer(({ store }: { store: Store }) => {
   tblStore.setTotalCount(store.appsCount);
 
   tblStore.rows = stableSort(store.apps, getComparator(tblStore.order, tblStore.orderBy as keyof Entity))
     .slice(tblStore.page * tblStore.rowsPerPage, tblStore.page * tblStore.rowsPerPage + tblStore.rowsPerPage)
     .map((row, index) => {
-      const isItemSelected = isSelected(row.name);
-      const labelId = `enhanced-table-checkbox-${index}`;
+      const isItemSelected = isSelected(row.id);
 
-      return <CreateRow key={index} row={row} isItemSelected={isItemSelected} labelId={labelId} />;
+      return <CreateRow key={index} row={row} isItemSelected={isItemSelected} />;
     });
 
   return (
@@ -33,17 +32,17 @@ export const CreateAppsMaterialTable = observer(({ store }: { store: Store }) =>
   );
 });
 
-function CreateRow({ row, isItemSelected, labelId }: { row: Entity; isItemSelected: boolean; labelId: string; }) {
+function CreateRow({ row, isItemSelected }: { row: Entity; isItemSelected: boolean }) {
+
   return <TableRow
     hover
-    onClick={(event) => handleClick(event, row.name)}
+    onClick={(event) => handleClick(event, row.id)}
     role="checkbox"
     aria-checked={isItemSelected}
     tabIndex={-1}
-    key={row.id}
     selected={isItemSelected}
   >
-    <TableCell component="th" id={labelId} scope="row">
+    <TableCell component="th" scope="row">
       {row.name}
     </TableCell>
     <TableCell align="left">{row.id}</TableCell>
@@ -52,14 +51,14 @@ function CreateRow({ row, isItemSelected, labelId }: { row: Entity; isItemSelect
   </TableRow>;
 }
 
-const isSelected = (name: string) => tblStore.selected.indexOf(name) !== -1;
+const isSelected = (id: string) => tblStore.selected.indexOf(id) !== -1;
 
-const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
-  const selectedIndex = tblStore.selected.indexOf(name);
+const handleClick = (event: React.MouseEvent<unknown>, id: string) => {
+  const selectedIndex = tblStore.selected.indexOf(id);
   let newSelected: string[] = [];
 
   if (selectedIndex === -1) {
-    newSelected = newSelected.concat(tblStore.selected, name);
+    newSelected = newSelected.concat(tblStore.selected, id);
   } else if (selectedIndex === 0) {
     newSelected = newSelected.concat(tblStore.selected.slice(1));
   } else if (selectedIndex === tblStore.selected.length - 1) {
