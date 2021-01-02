@@ -7,10 +7,10 @@ type propsType = {
   store: Store;
 };
 
-const AppComponent = (store : Store) =>
+const AppFunction = (store: Store) =>
   <div className="App">
-    <h1>JS Starcraft Bot Alternate</h1>
+    <h1>Function Alternate</h1>
     {store.armyCount}
   </div>;
 
-export default observer((props: propsType) => AppComponent(props.store));
+export default observer((props: propsType) => AppFunction(props.store));
