@@ -4,15 +4,13 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import { observer } from 'mobx-react';
 import TableStore from './TableStore';
-import { Order } from './stableSort';
 import { EnhancedTableToolbar } from './EnhancedTableToolbar';
+import { EnhancedTableHead } from './EnhancedTableHead';
 
 export interface HeadCell {
   disablePadding: boolean;
@@ -21,51 +19,7 @@ export interface HeadCell {
   numeric: boolean;
 }
 
-interface EnhancedTableProps {
-  classes: ReturnType<typeof useStyles>;
-  onRequestSort: (event: React.MouseEvent<unknown>, property: string) => void;
-  order: Order;
-  orderBy: string;
-  rowCount: number;
-  headCells: HeadCell[];
-}
-
-function EnhancedTableHead(props: EnhancedTableProps) {
-  const { classes, order, orderBy, onRequestSort, headCells } = props;
-  const createSortHandler = (property: string) => (event: React.MouseEvent<unknown>) => {
-    onRequestSort(event, property);
-  };
-
-  return (
-    <TableHead>
-      <TableRow>
-        {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'default'}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <span className={classes.visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </span>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
-
-const useStyles = makeStyles((theme: Theme) =>
+export const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       width: '100%',
