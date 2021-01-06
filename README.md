@@ -6,16 +6,19 @@
 
 Create functions 
  - Observable (if required) react components
- - Only cells (maybe headers) are mapped to entities
+ - Only cells (maybe headers) are mapped to entities (`<Cell value={app.name}>`)
  - Perform iteration over arrays
 
 Components
- - Aren't entity aware (`<Cell value={app.name}>`)
- - Take any type of children
- - No iteration
+ - Aren't entity aware 
+ - Has it’s own Store to share general table state to headers and paginator (Sorting/filtering/paging)
+ - Take any type of children (Try to remove rows.map as this can be confusing/allow for muddling of layers)
 
 ## MaterialUI Findings
-[MaterialTable.tsx](./src/MaterialTable.tsx)
+[CreateAppsEnhancedTable.tsx](./src/EnhancedTable/CreateAppsEnhancedTable.tsx) |
+[EnhancedTable.tsx](./src/EnhancedTable/EnhancedTable.tsx) |
+[TableStore.ts](./src/EnhancedTable/TableStore.ts)
+
  - Nice typed rows (using keyof)
  - Very easy to change given example to base off my own data structure
    - See 2 commits: [Change data structure](https://github.com/meselgroth/react-typescript-mobx/commit/58b42b48ff4d7c711680ee761c852bb2f1e76ff9) |
